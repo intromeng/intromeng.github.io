@@ -6,3 +6,11 @@
 .atmosphere:after{background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.1) 55%,rgba(0,0,0,.55) 78%,#09090b 100%)}
 .hero-content{position:relative;text-shadow:0 2px 20px #0008}
 @media(prefers-reduced-motion:reduce){.hero-video{visibility:hidden}}
+/* Independent square pixels replace the static dotted text mask. */
+.matrix.pixel-matrix{--pixel:clamp(3px,.67vw,9px);--pixel-gap:clamp(1px,.2vw,2.5px);position:relative;display:flex;align-items:center;justify-content:center;gap:clamp(5px,.85vw,12px);background:none;-webkit-text-fill-color:initial;filter:none;line-height:1;letter-spacing:0;min-height:calc(7 * var(--pixel) + 6 * var(--pixel-gap));isolation:isolate}
+.pixel-letter{position:relative;display:grid;grid-template-columns:repeat(var(--columns),var(--pixel));grid-template-rows:repeat(7,var(--pixel));gap:var(--pixel-gap);flex:none}
+.pixel-space{width:clamp(4px,1vw,14px);flex:none}
+.pixel-dot{display:block;width:var(--pixel);height:var(--pixel);background:#fff;border-radius:1px;transform:translateY(var(--lift,0px)) scale(var(--scale,1));box-shadow:0 0 var(--glow,0px) #ffffffb8;transition:transform .16s ease-out,box-shadow .2s ease-out;animation:pixel-arrive .85s cubic-bezier(.22,1,.36,1) var(--delay) backwards}
+@keyframes pixel-arrive{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:420px){.matrix.pixel-matrix{--pixel:3px;--pixel-gap:1px;gap:5px}.pixel-space{width:3px}}
+@media(prefers-reduced-motion:reduce){.pixel-dot{animation:none;transition:none;transform:none;box-shadow:none}}
