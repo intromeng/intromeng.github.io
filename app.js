@@ -2,4 +2,9 @@ const dialog=document.querySelector('#lightbox');let opener;
 document.querySelectorAll('[data-image]').forEach(button=>button.addEventListener('click',()=>{opener=button;dialog.querySelector('img').src=button.dataset.image;dialog.querySelector('img').alt=button.querySelector('img').alt;dialog.showModal();document.body.style.overflow='hidden'}));
 dialog.querySelector('.close').addEventListener('click',()=>dialog.close());dialog.addEventListener('close',()=>{document.body.style.overflow='';opener?.focus()});dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close()}});
 document.querySelectorAll('[data-copy]').forEach(b=>b.addEventListener('click',async()=>{let msg;try{await navigator.clipboard.writeText(b.dataset.copy);msg='邮箱已复制'}catch{msg='邮箱：'+b.dataset.copy}const t=document.querySelector('.toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500)}));
-const canvas=document.querySelector('#particles');if(canvas){const ctx=canvas.getContext('2d');const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;let w,h,frame=0;function size(){w=canvas.clientWidth;h=canvas.clientHeight;const d=Math.min(devicePixelRatio,2);canvas.width=w*d;canvas.height=h*d;ctx.setTransform(d,0,0,d,0,0)}size();window.addEventListener('resize',size);function draw(){ctx.clearRect(0,0,w,h);for(let y=0;y<22;y++)for(let x=0;x<65;x++){const px=x*w/64,py=h*.1+y*13+Math.sin(x*.13+frame*.003+y*.1)*28;ctx.fillStyle=`rgba(214,196,234,${.07+(Math.sin(x*2.3+y*1.7)*.5+.5)*.38})`;ctx.fillRect(px,py,1.5,1.5)}frame++;if(!reduce&&frame<1800)requestAnimationFrame(draw)}draw()}
+const heroVideo=document.querySelector('.hero-video');
+if(heroVideo){
+ const preference=matchMedia('(prefers-reduced-motion: reduce)');
+ const sync=()=>{if(preference.matches||document.hidden)heroVideo.pause();else heroVideo.play().catch(()=>{});};
+ preference.addEventListener('change',sync);document.addEventListener('visibilitychange',sync);sync();
+}
